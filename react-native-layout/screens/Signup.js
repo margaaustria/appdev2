@@ -165,7 +165,7 @@ const Signup = ({ navigation }) => {
             <Ionicons
               name="person-add-outline"
               size={20}
-              color="#750606"
+              color="#ffffff"
               style={styles.buttonIcon}
             />
             <Text style={styles.signupButtonText}>Sign Up</Text>
