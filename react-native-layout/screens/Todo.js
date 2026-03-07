@@ -41,5 +41,25 @@ export default function Todo() {
         ]
     )
 }
-
+    const toggleTodo = (id) => {
+    setTodoList(
+        todoList.map(item =>
+            item.id === id
+                ? { ...item, completed: !item.completed }
+                : item
+        )
+    )
 }
+
+    return (
+    <View style={styles.container}>
+    <Text style={styles.title}>Todo</Text>
+
+    <TextInput
+    placeholder="Search todos..."
+    style={styles.searchBar}
+    value={search}
+    onChangeText={setSearch}
+    />
+    </View>
+)
