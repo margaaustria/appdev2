@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
+import Todo from './screens/Todo';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('Login');
@@ -18,6 +19,8 @@ export default function App() {
         <Login navigation={navigationProps} />
       ) : (
         <Signup navigation={navigationProps} />
+      ) : (
+      <Todo navigation={navigationProps} />
       )}
       <StatusBar style="auto" />
     </>
