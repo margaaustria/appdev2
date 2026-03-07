@@ -114,4 +114,64 @@ export default function Todo() {
     </View>
     );
     }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    paddingTop: 60,
+    paddingHorizontal: 20
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    marginBottom: 20
+  },
+  searchBar: {
+    backgroundColor: 'white',
+    height: 50,
+    borderRadius: 15,
+    paddingHorizontal: 15,
+    marginBottom: 20
+  },
+  todoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 15,
+    marginBottom: 10
+  },
+  todoTextWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1
+  },
+  todoText: {
+    flexShrink: 1,
+    maxWidth: "75%",
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 30
+  },
+  input: {
+    backgroundColor: 'white',
+    height: 50,
+    borderRadius: 15,
+    paddingHorizontal: 15,
+    width: '85%',
+    marginRight: 10
+  },
+  addButton: {
+    height: 50,
+    width: 50,
+    borderRadius: 30,
+    backgroundColor: 'deeppink',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+});
     
