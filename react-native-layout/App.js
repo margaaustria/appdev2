@@ -19,7 +19,7 @@ export default function App() {
         <Login navigation={navigationProps} />
       ) : (
         <Signup navigation={navigationProps} />
-      ) : (
+      ) (
       <Todo navigation={navigationProps} />
       )}
       <StatusBar style="auto" />
