@@ -15,4 +15,31 @@ export default function Todo() {
     const filteredTodo = todoList.filter(item =>
     item.text.toLowerCase().includes(search.toLowerCase())
 );
+    const addTodo = () => {
+        setTodoList([
+            {
+                id: Date.now().toString(),
+                text: todo,
+                completed: false
+            },
+            ...todoList
+        ])
+        setTodo("")
+    }
+
+    const deleteTodo = (id) => {
+    setTodoList(todoList.filter(item => item.id !== id))
+}
+
+    const confirmDelete = (id) => {
+    Alert.alert(
+        "Delete Todo",
+        "Are you sure you want to delete this?",
+        [
+            { text: "Cancel", style: "cancel" },
+            { text: "Delete", style: "destructive", onPress: () => deleteTodo(id) }
+        ]
+    )
+}
+
 }
