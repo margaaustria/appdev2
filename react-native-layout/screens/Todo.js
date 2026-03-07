@@ -61,5 +61,37 @@ export default function Todo() {
     value={search}
     onChangeText={setSearch}
     />
+
+    <ScrollView>
+{filteredTodo.map(item => (
+    <View style={styles.todoContainer} key={item.id}>
+        <TouchableOpacity
+            style={styles.todoTextWrapper}
+            onPress={() => toggleTodo(item.id)}
+        >
+            {item.completed
+                ? <Ionicons name="checkmark-circle-outline" size={30} />
+                : <Ionicons name="ellipse-outline" size={30} />
+            }
+
+            <Text
+                style={[
+                    styles.todoText,
+                    item.completed && { textDecorationLine: 'line-through' }
+                ]}
+                numberOfLines={1}
+                ellipsizeMode='tail'
+            >
+                {item.text}
+            </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => confirmDelete(item.id)}>
+            <Ionicons name="trash-outline" size={30} />
+        </TouchableOpacity>
     </View>
-)
+))}
+</ScrollView>
+    </View>
+    )
+}
