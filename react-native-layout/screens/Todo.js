@@ -12,4 +12,7 @@ export default function Todo() {
         { id: 2, text: "Learn React Native Core Components", completed: true },
     ]);
 
+    const filteredTodo = todoList.filter(item =>
+    item.text.toLowerCase().includes(search.toLowerCase())
+);
 }
