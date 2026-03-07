@@ -92,6 +92,26 @@ export default function Todo() {
     </View>
 ))}
 </ScrollView>
+
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+>
+    <View style={styles.inputWrapper}>
+
+    <TextInput
+        placeholder="Add todo"
+        style={styles.input}
+        value={todo}
+        onChangeText={setTodo}
+    />
+
+    <TouchableOpacity style={styles.addButton} onPress={addTodo}>
+        <Ionicons name="add-outline" size={30} color="white" />
+    </TouchableOpacity>
+
     </View>
-    )
-}
+    </KeyboardAvoidingView>
+    </View>
+    );
+    }
+    
