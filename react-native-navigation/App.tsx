@@ -1,35 +1,21 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack';
+  createStaticNavigation,
+  useNavigation,
+} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 
-type RootStackParamList = {
-  Home: undefined;
-  Details: { itemId: number; otherParam: string };
-};
-
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
-
-type DetailsScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Details'
->;
-
 function HomeScreen() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const navigation = useNavigation();
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button
         onPress={() => {
+          /* 1. Navigate to the Details route with params */
           navigation.navigate('Details', {
             itemId: 86,
             otherParam: 'anything you want here',
@@ -41,10 +27,10 @@ function HomeScreen() {
     </View>
   );
 }
+function DetailsScreen({ route }) {
+  const navigation = useNavigation();
 
-function DetailsScreen({ route }: { route: { params: { itemId: number; otherParam: string } } }) {
-  const navigation = useNavigation<DetailsScreenNavigationProp>();
-
+  /* 2. Get the param */
   const { itemId, otherParam } = route.params;
 
   return (
@@ -53,30 +39,33 @@ function DetailsScreen({ route }: { route: { params: { itemId: number; otherPara
       <Text>itemId: {JSON.stringify(itemId)}</Text>
       <Text>otherParam: {JSON.stringify(otherParam)}</Text>
       <Button
-        onPress={() =>
-          navigation.push('Details', {
-            itemId: Math.floor(Math.random() * 100),
-            otherParam: 'anything you want here',
-          })
+        onPress={
+          () =>
+            navigation.push('Details', {
+              // Randomly generate an ID for demonstration purposes
+              itemId: Math.floor(Math.random() * 100),
+            })
         }
       >
         Go to Details... again
       </Button>
-      <Button onPress={() => navigation.goBack()}>Go back</Button>
     </View>
   );
 }
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+const RootStack = createNativeStackNavigator({
+  screens: {
+    Home: HomeScreen,
+    Details: {
+      screen: DetailsScreen,
+      initialParams: { itemId: 42 },
+    },
+  },
+});
+
+const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Home">
-        <RootStack.Screen name="Home" component={HomeScreen} />
-        <RootStack.Screen name="Details" component={DetailsScreen} />
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
+  return <Navigation />;
 }
 
