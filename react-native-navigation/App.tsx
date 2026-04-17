@@ -1,19 +1,26 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-import { createStaticNavigation } from '@react-navigation/native';
+import {
+  createStaticNavigation,
+  useNavigation,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Link } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 
 function HomeScreen() {
+  const navigation = useNavigation();
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
-      <Link screen="Details" params={{}}>Go to Details</Link>
-      <Button screen="Details" params={{}}>Go to Details</Button>
+      <Button onPress={() => navigation.navigate('Details')}>
+        Go to Details
+      </Button>
     </View>
   );
 }
+
+// ... other code from the previous section
 
 function DetailsScreen() {
   return (
