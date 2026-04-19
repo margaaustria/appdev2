@@ -1,64 +1,86 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import {createStaticNavigation, useNavigation, } from '@react-navigation/native';
+import { View, Text } from 'react-native';
+import {
+  createStaticNavigation,
+  useNavigation,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Button } from '@react-navigation/elements';
 
-function SettingsScreen({ route }: { route: { params: { userId: string } } }) {
-  const { userId } = route.params;
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RouteProp} from '@react-navigation/native'
 
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Settings Screen</Text>
-      <Text>User ID: {JSON.stringify(userId)}</Text>
-    </View>
-  );
-}
+type RootStackParamList = {
+  Home: undefined;
+  Details: {
+    itemId: number;
+    otherParam?: string;
+  };
+};
+
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Home'
+>;
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
+
+type DetailsProps = {
+  route: DetailsScreenRouteProp;
+};
 
 function HomeScreen() {
-  const navigation = useNavigation() as any;
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button
-        onPress={
-          () =>
-            navigation.navigate('More', {
-              screen: 'Settings',
-              params: { userId: 'jane' },
-            })
-        }
+        onPress={() => {
+          /* 1. Navigate to the Details route with params */
+          navigation.navigate('Details', {
+            itemId: 86,
+            otherParam: 'anything you want here',
+          });
+        }}
       >
-        Go to Settings
+        Go to Details
       </Button>
     </View>
   );
 }
+function DetailsScreen({ route }: DetailsProps) {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-function ProfileScreen() {
+  /* 2. Get the param */
+  const { itemId, otherParam } = route.params;
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Profile Screen</Text>
+      <Text>Details Screen</Text>
+      <Text>itemId: {JSON.stringify(itemId)}</Text>
+      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+      <Button
+        onPress={
+          () =>
+            navigation.push('Details', {
+              // Randomly generate an ID for demonstration purposes
+              itemId: Math.floor(Math.random() * 100),
+            })
+        }
+      >
+        Go to Details... again
+      </Button>
     </View>
   );
 }
-const MoreStack = createNativeStackNavigator({
-  screens: {
-    Settings: SettingsScreen,
-    Profile: ProfileScreen,
-  },
-});
-
-const RootTabs = createBottomTabNavigator({
+const RootStack = createNativeStackNavigator<RootStackParamList>({
   screens: {
     Home: HomeScreen,
-    More: MoreStack,
+    Details: DetailsScreen,
   },
 });
 
-const Navigation = createStaticNavigation(RootTabs);
+const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
   return <Navigation />;
